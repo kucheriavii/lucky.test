@@ -27,14 +27,46 @@
 			}
 			return($result_array);
 		}
-		$result = get_the_data("SuperLoto_Results__1-538.csv");
 		//print_r($result);
-		$array2 = array(42, 18, 39, 10, 27, 2);
-		print_r($array2);
-		foreach ($result as $key => $value) {
-			$a =  array_intersect($result[$key], $array2);
-			echo count($a) . " совпадений. \n";
+		function sort_wons($last_lothery_results)
+		{
+	//		$result = get_the_data("SuperLoto_Results__1-538.csv");
+			$TEST = array(42, 18, 39, 10, 27, 2);
+			print_r($TEST);
+			$sorted_results = array(0,0,0,0,0,0);
+			foreach ($last_lothery_results as $key => $value) {
+				$a =  array_intersect($last_lothery_results[$key], $TEST);
+				switch (count($a)) {
+					case "1":
+						$sorted_results[0]++;
+						break;
+					case "2":
+						$sorted_results[1]++;
+						break;
+					case "3":
+						$sorted_results[2]++;
+						break;
+					case "4":
+						$sorted_results[3]++;
+						break;
+					case "5":
+						$sorted_results[4]++;
+						break;
+					case "6":
+						$sorted_results[5]++;
+						break;
+					
+					default:
+						# code...
+						break;
+				}
+				//echo count($a) . " совпадений. \n";
+
+			}
+				return $sorted_results;
 		}
+		$result = get_the_data("SuperLoto_Results__1-538.csv");
+		print_r(sort_wons($result));
 	 ?>
 </body>
 </html>
