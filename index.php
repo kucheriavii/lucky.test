@@ -27,7 +27,14 @@
 			}
 			return($result_array);
 		}
-		print_r(get_the_data("SuperLoto_Results__1-538.csv"));
+		$result = get_the_data("SuperLoto_Results__1-538.csv");
+		//print_r($result);
+		$array2 = array(42, 18, 39, 10, 27, 2);
+		print_r($array2);
+		foreach ($result as $key => $value) {
+			$a =  array_intersect($result[$key], $array2);
+			echo count($a) . " совпадений. \n";
+		}
 	 ?>
 </body>
 </html>
