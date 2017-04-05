@@ -1,11 +1,12 @@
-<?php 
+<?php error_reporting( E_ERROR ); ?>
+<?php
 		function get_the_data($file_name){
-		//запишемо результати для опрацювання в змінну і врахуємо що кодування в windows-1251 
+		//запишемо результати для опрацювання в змінну і врахуємо що кодування в windows-1251
 			$result_of_prev_loto = iconv('windows-1251', 'utf-8', file_get_contents($file_name));
 			$result_array = explode("\n", $result_of_prev_loto);
 			array_shift($result_array); //канєшно не гарно дивиться, але треба вирізати ту хню (першу строчку) з масиву
 
-			//потрібно розбити стрьомний масив на такий як мені потрібно. Тобто лише з номерами кульок. Тому я переберу масив з строк і при цьому кожну ітерацію перетворюватиму строку в масив по знаку ";" і збиратиму лише потрібні мені елементи в новий масив; 
+			//потрібно розбити стрьомний масив на такий як мені потрібно. Тобто лише з номерами кульок. Тому я переберу масив з строк і при цьому кожну ітерацію перетворюватиму строку в масив по знаку ";" і збиратиму лише потрібні мені елементи в новий масив;
 			foreach ($result_array as $key => $value) {
 				$parser = explode(";", $value); //ріжу строку на масиви
 				$result_array[$key] = [
@@ -31,6 +32,7 @@
 				$_POST['name4'],
 				$_POST['name5'],
 				$_POST['name6']);
+				//$players_balls = array(53,38,28,18,5,44);
 			$sorted_results = array(0,0,0,0,0,0);
 			foreach ($last_lothery_results as $key => $value) {
 				$a =  array_intersect($last_lothery_results[$key], $players_balls);
@@ -53,7 +55,7 @@
 					case "6":
 						$sorted_results[5]++;
 						break;
-					
+
 					default:
 						# code...
 						break;
