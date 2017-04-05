@@ -5,68 +5,73 @@
 	<title>Document</title>
 </head>
 <body>
-	<?php 
-		function get_the_data($file_name){
-		//запишемо результати для опрацювання в змінну і врахуємо що кодування в windows-1251 
-			$result_of_prev_loto = iconv('windows-1251', 'utf-8', file_get_contents($file_name));
-			$result_array = explode("\n", $result_of_prev_loto);
-			array_shift($result_array); //канєшно не гарно дивиться, але треба вирізати ту хню (першу строчку) з масиву
-
-			//потрібно розбити стрьомний масив на такий як мені потрібно. Тобто лише з номерами кульок. Тому я переберу масив з строк і при цьому кожну ітерацію перетворюватиму строку в масив по знаку ";" і збиратиму лише потрібні мені елементи в новий масив; 
-			foreach ($result_array as $key => $value) {
-				$parser = explode(";", $value); //ріжу строку на масиви
-				$result_array[$key] = [
-										$parser[4],
-										$parser[5],
-										$parser[6],
-										$parser[7],
-										$parser[8],
-										$parser[9]
-										];/*забираю лише потрібні елементи*/
-
-			}
-			return($result_array);
-		}
-		//print_r($result);
-		function sort_wons($last_lothery_results)
-		{
-	//		$result = get_the_data("SuperLoto_Results__1-538.csv");
-			$TEST = array(42, 18, 39, 10, 27, 2);
-			print_r($TEST);
-			$sorted_results = array(0,0,0,0,0,0);
-			foreach ($last_lothery_results as $key => $value) {
-				$a =  array_intersect($last_lothery_results[$key], $TEST);
-				switch (count($a)) {
-					case "1":
-						$sorted_results[0]++;
-						break;
-					case "2":
-						$sorted_results[1]++;
-						break;
-					case "3":
-						$sorted_results[2]++;
-						break;
-					case "4":
-						$sorted_results[3]++;
-						break;
-					case "5":
-						$sorted_results[4]++;
-						break;
-					case "6":
-						$sorted_results[5]++;
-						break;
-					
-					default:
-						# code...
-						break;
+	<!--	<form action="script.php" method="POST">
+		<input type="text" class="ball1" name="ball1">
+		<input type="text" class="ball2" name="ball2">
+		<input type="text" class="ball3" name="ball3">
+		<input type="text" class="ball4" name="ball4">
+		<input type="text" class="ball5" name="ball5">
+		<input type="text" class="ball6" name="ball6">
+		<input type="submit">
+	</form> -->
+	<script>
+		//запускаємо скріпт при загрузці сторінки
+		window.onload = function(){
+			var result = document.getElementById('result')
+			//шукаємо кнопку, щоб повісити хендлер
+			var button = document.getElementById("button");
+			//вішаємо хендлер
+			button.addEventListener('click', ajaxPostReq);
+			/*----------------------Формуэмо массив-----------*/
+			//************************************
+			//функція з запитом POST
+			//************************************
+			function ajaxPostReq () {
+					var name = new Array();
+					for(i=0; i<document.getElementsByClassName("ball").length; i++){
+						name[i] = document.getElementsByClassName("ball")[i].value
+					}
+				 	var sendString = "name1="+ name[0] +
+				 					"&name2=" + name[1] +
+				 					"&name3=" + name[2] +
+				 					"&name4=" + name[3] +
+				 					"&name5=" + name[4] +
+				 					"&name6=" + name[5];
+				 	var ajax = new XMLHttpRequest();
+				 	ajax.open("POST", "script.php", true);
+				
+				ajax.onreadystatechange = function(){
+					if (ajax.readyState == 4){
+						//виводимо результат
+						var globo = ajax.responseText;
+						console.log(globo);
+					}
 				}
-				//echo count($a) . " совпадений. \n";
-
+					//ОБОВЯЗКОВО ПРОПИСУЄМО ЗАГОЛОВОК. БЕЗ НЬОГО ЗАПИТ НЕ ВІДПРАВИТЬСЯ.
+					ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+					//також може знадобитися слідуючий заголовок
+					//ajax.setRequestHeader("Content-Length", sendString.length);
+					//відправляємо стрічку з даними. Яку ми сформували в рядку 27-28
+					ajax.send(sendString);
 			}
-				return $sorted_results;
+
+				 	
+				 	
+				 	
+				 	
+				
+				
+
+			
 		}
-		$result = get_the_data("SuperLoto_Results__1-538.csv");
-		print_r(sort_wons($result));
-	 ?>
+	</script>
+		<input type="text" class="ball" name="ball1">
+		<input type="text" class="ball" name="ball2">
+		<input type="text" class="ball" name="ball3">
+		<input type="text" class="ball" name="ball4">
+		<input type="text" class="ball" name="ball5">
+		<input type="text" class="ball" name="ball6">
+		<input type="submit" id="button">
+		<div id="result"></div>
 </body>
 </html>
