@@ -14,6 +14,15 @@
 			var button = document.getElementById("button");
 			var inputs = document.getElementsByClassName("ball");
 			//вішаємо хендлери
+			//на ентер
+			document.onkeyup = function (e) {
+				e = e || window.event;
+				if (e.keyCode === 13) {
+					ajaxPostReq();
+				}
+				return false;
+			}
+			//на сабміт
 			button.addEventListener('click', ajaxPostReq);
 			how_many = 538;// Якщо вдруг захочеться рахувати не по всіх, а по якійсь кількості. То ця змінна регулює такі запитання
 			/*----------------------Аякс запит-----------*/
@@ -56,7 +65,7 @@
 					/*перевірка чи немає дублікатів*/
 					for (var i = 0; i < name.length; i++) {
 						for(var j = 0; j<name.length; j++){
-							if (name[i] == name[j] && i!=j){
+							if (parseInt(name[i]) == parseInt(name[j]) && i!=j){
 								validator = 0;
 								repeatFlag = true
 							}
@@ -75,7 +84,7 @@
 						if (wons[0] == "Файл .cls не знайдено")
 							resultMessage = "Файл .cls не знайдено"
 
-						result.innerHTML = "<table>"+resultMessage+"</table>"
+						result.innerHTML = "<p>За результатами "+how_many+" останніх лотерей</p><table>"+resultMessage+"</table>"
 					}else{
 						var errorMessage = "";
 						if (incorrectFlag){
