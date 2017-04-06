@@ -32,12 +32,12 @@
 					name[i] = document.getElementsByClassName("ball")[i].value
 				}
 				/*Формую строку запиту яку відсилатиму POSTом*/
-			 	var sendString = "name1="+ name[0] +
-			 					"&name2=" + name[1] +
-			 					"&name3=" + name[2] +
-			 					"&name4=" + name[3] +
-			 					"&name5=" + name[4] +
-			 					"&name6=" + name[5] +
+			 	var sendString = "name1="+ parseInt(name[0]) +
+			 					"&name2=" + parseInt(name[1]) +
+			 					"&name3=" + parseInt(name[2]) +
+			 					"&name4=" + parseInt(name[3]) +
+			 					"&name5=" + parseInt(name[4]) +
+			 					"&name6=" + parseInt(name[5]) +
 								"&how_many=" + how_many;
 
 			 	var ajax = new XMLHttpRequest();
@@ -108,12 +108,13 @@
 		}
 	</script>
 	<div class="box">
-		<input type="text" class="ball" name="ball1">
-		<input type="text" class="ball" name="ball2">
-		<input type="text" class="ball" name="ball3">
-		<input type="text" class="ball" name="ball4">
-		<input type="text" class="ball" name="ball5">
-		<input type="text" class="ball" name="ball6">
+		<p>Введіть 6 чисел від 1 до 52.</p>
+		<input type="text" class="ball" name="ball1" maxlength="2">
+		<input type="text" class="ball" name="ball2" maxlength="2">
+		<input type="text" class="ball" name="ball3" maxlength="2">
+		<input type="text" class="ball" name="ball4" maxlength="2">
+		<input type="text" class="ball" name="ball5" maxlength="2">
+		<input type="text" class="ball" name="ball6" maxlength="2">
 		<input type="submit" id="button">
 		<div id="result"></div>
 	</div>
