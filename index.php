@@ -109,6 +109,7 @@
 	</script>
 	<div class="box">
 		<p>Введіть 6 чисел від 1 до 52.</p>
+		<p>(числа формату "p1" чи "1a" будуть автоматично перетворені на "1")</p>
 		<input type="text" class="ball" name="ball1" maxlength="2">
 		<input type="text" class="ball" name="ball2" maxlength="2">
 		<input type="text" class="ball" name="ball3" maxlength="2">
