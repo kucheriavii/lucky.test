@@ -75,7 +75,7 @@
 					if (ajax.readyState == 4 && lessFlag == false && incorrectFlag == false && repeatFlag == false){
 						//виводимо результат
 						var wons = ajax.responseText;
-						console.log(wons);
+						//console.log(wons);
 						wons = wons.split(",");
 						var resultMessage = "";
 						for (var i = 0; i < wons.length; i++) {
