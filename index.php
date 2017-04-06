@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<script>
@@ -14,31 +15,27 @@
 			var inputs = document.getElementsByClassName("ball");
 			//вішаємо хендлери
 			button.addEventListener('click', ajaxPostReq);
-			for (var i = 0; i < inputs.length; i++) {
-				inputs[i].addEventListener('blur', validator)
-			}
-			/*Валідатор*/
-			var validation = true;
-			function validator() {
-
-			}
+			how_many = 538;// Якщо вдруг захочеться рахувати не по всіх, а по якійсь кількості. То ця змінна регулює такі запитання
 			/*----------------------Аякс запит-----------*/
 			function ajaxPostReq () {
-					var name = new Array();
-					for(i=0; i<document.getElementsByClassName("ball").length; i++){
-						name[i] = document.getElementsByClassName("ball")[i].value
-					}
-				 	var sendString = "name1="+ name[0] +
-				 					"&name2=" + name[1] +
-				 					"&name3=" + name[2] +
-				 					"&name4=" + name[3] +
-				 					"&name5=" + name[4] +
-				 					"&name6=" + name[5];
-				 	var ajax = new XMLHttpRequest();
-				 	ajax.open("POST", "script.php", true);
+				var name = new Array();
+				for(i=0; i<document.getElementsByClassName("ball").length; i++){
+					name[i] = document.getElementsByClassName("ball")[i].value
+				}
+				/*Формую строку запиту яку відсилатиму POSTом*/
+			 	var sendString = "name1="+ name[0] +
+			 					"&name2=" + name[1] +
+			 					"&name3=" + name[2] +
+			 					"&name4=" + name[3] +
+			 					"&name5=" + name[4] +
+			 					"&name6=" + name[5] +
+								"&how_many=" + how_many;
+
+			 	var ajax = new XMLHttpRequest();
+			 	ajax.open("POST", "script.php", true);
 
 				ajax.onreadystatechange = function(){
-					validator = 0;
+					validator = 0
 					repeatFlag = false
 					incorrectFlag = false
 					lessFlag = false
@@ -65,31 +62,43 @@
 							}
 						}
 					}
-					if (incorrectFlag){console.log('incorrect')}
-					if (repeatFlag){console.log('repeat')}
-					if (lessFlag){console.log('not full data')}
 					/*кінець валідації*/
-					if (ajax.readyState == 4 && validator==1){
+					if (ajax.readyState == 4 && lessFlag == false && incorrectFlag == false && repeatFlag == false){
 						//виводимо результат
-						var globo = ajax.responseText;
-						console.log(globo);
+						var wons = ajax.responseText;
+						console.log(wons);
+						wons = wons.split(",");
+						var resultMessage = "";
+						for (var i = 0; i < wons.length; i++) {
+							resultMessage += "<tr><td>"+(i+1)+" з 52</td><td>"+wons[i]+"</td></tr>";
+						}
+						if (wons[0] == "Файл .cls не знайдено")
+							resultMessage = "Файл .cls не знайдено"
+
+						result.innerHTML = "<table>"+resultMessage+"</table>"
+					}else{
+						var errorMessage = "";
+						if (incorrectFlag){
+							console.log('incorrect');
+							errorMessage += "<p>Введене число повинно знаходитися в діапазоні від 1 до 52</p>"
+						};
+						if (repeatFlag){
+							console.log('repeat')
+							errorMessage += "<p>Введені числа не повинні повторюватися</p>"
+						};
+						if (lessFlag){
+							console.log('not full data')
+							errorMessage += "<p>Введені не всі числа</p>"
+						};
+						result.innerHTML = errorMessage;
 					}
 				}
 					ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 					ajax.send(sendString);
 			}
-
-
-
-
-
-
-
-
-
-
 		}
 	</script>
+	<div class="box">
 		<input type="text" class="ball" name="ball1">
 		<input type="text" class="ball" name="ball2">
 		<input type="text" class="ball" name="ball3">
@@ -98,5 +107,6 @@
 		<input type="text" class="ball" name="ball6">
 		<input type="submit" id="button">
 		<div id="result"></div>
+	</div>
 </body>
 </html>
