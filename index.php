@@ -5,15 +5,6 @@
 	<title>Document</title>
 </head>
 <body>
-	<!--	<form action="script.php" method="POST">
-		<input type="text" class="ball1" name="ball1">
-		<input type="text" class="ball2" name="ball2">
-		<input type="text" class="ball3" name="ball3">
-		<input type="text" class="ball4" name="ball4">
-		<input type="text" class="ball5" name="ball5">
-		<input type="text" class="ball6" name="ball6">
-		<input type="submit">
-	</form> -->
 	<script>
 		//запускаємо скріпт при загрузці сторінки
 		window.onload = function(){
@@ -50,11 +41,12 @@
 					validator = 0;
 					repeatFlag = false
 					incorrectFlag = false
+					lessFlag = false
 					/*Валидація даних*/
 					/*Перевірка чи в діапазоні*/
 					for (var i = 0; i < name.length; i++) {
 						if (name[i]=="") {
-							console.log('йобаний пробіл')
+							lessFlag = true
 							validator = 0;
 						}
 						else if (parseInt(name[i])>=1 && parseInt(name[i])<=52){
@@ -75,6 +67,7 @@
 					}
 					if (incorrectFlag){console.log('incorrect')}
 					if (repeatFlag){console.log('repeat')}
+					if (lessFlag){console.log('not full data')}
 					/*кінець валідації*/
 					if (ajax.readyState == 4 && validator==1){
 						//виводимо результат
